@@ -32,6 +32,10 @@ type PopularMovieRequest struct {
 }
 
 type PopularMovieResponse struct {
+	Page   int            `json:"page"`
+	Result []PopularMovie `json:"results"`
+}
+type PopularMovie struct {
 	Title        string `json:"title"`
 	Overview     string `json:"overview"`
 	BackdropPath string `json:"backdrop_path"`

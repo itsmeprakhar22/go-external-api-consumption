@@ -1,5 +1,1 @@
 package tmdb
-
-func GetPopularMovies() {
-
-}

@@ -12,19 +12,20 @@ import (
 
 const (
 	headerAuthorization       = "Authorization"
-	headerAuthorizationFormat = "token %s"
+	headerAuthorizationFormat = "Bearer %s"
 
-	urlTmdbBase = "https://api.themoviedb.org/3/movie/popular"
+	urlTmdbBase = "http://api.themoviedb.org/3/movie/popular?api_key=YOUR_API_KEY"
 )
 
 func getAuthorizationHeader(accessToken string) string {
-	return fmt.Sprintf(headerAuthorizationFormat, "YOUR_API_KEY")
+	return fmt.Sprintf(headerAuthorizationFormat, accessToken)
 }
 
 func GetPopularMovies(accessToken string, request tmdb.PopularMovieRequest) (*tmdb.PopularMovieResponse, *tmdb.PopularMovieError) {
 
 	headers := http.Header{}
-	headers.Set(headerAuthorization, getAuthorizationHeader(accessToken))
+	// headers.Set(headerAuthorization, getAuthorizationHeader(accessToken))
+
 	response, err := rest_clients.Get(urlTmdbBase, request, headers)
 
 	if err != nil {

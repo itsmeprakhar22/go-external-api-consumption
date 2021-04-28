@@ -115,3 +115,23 @@ func TestGetPopularMoviesInvalidErrorInterface(t *testing.T) {
 	assert.EqualValues(t, http.StatusInternalServerError, err.StatusCode)
 	assert.EqualValues(t, "Invalid json response body", err.StatusMessage)
 }
+
+func TestGetPopularMoviesNoError(t *testing.T) {
+	rest_clients.FlushMockups()
+
+	rest_clients.AddMockup(rest_clients.Mock{
+		Url:        "http://api.themoviedb.org/3/movie/popular?api_key=YOUR_API_KEY",
+		HttpMethod: http.MethodGet,
+		Response: &http.Response{
+			StatusCode: http.StatusAccepted,
+			Body:       ioutil.NopCloser(strings.NewReader(`{"page":1,"results":[{"backdrop_path":"/9yBVqNruk6Ykrwc32qrK2TIE5xw.jpg","overview":"Washed-up MMA fighter Cole Young, unaware of his heritage, and hunted by Emperor Shang Tsung's best warrior, Sub-Zero, seeks out and trains with Earth's greatest champions as he prepares to stand against the enemies of Outworld in a high stakes battle for the universe.","release_date":"2021-04-07","title":"Mortal Kombat"}]}`)),
+		},
+	})
+
+	res, err := GetPopularMovies("YOUR_TOKEN", tmdb.PopularMovieRequest{})
+
+	assert.NotNil(t, res)
+	assert.Nil(t, err)
+	assert.EqualValues(t, "/9yBVqNruk6Ykrwc32qrK2TIE5xw.jpg", res.Result[0].BackdropPath)
+	assert.EqualValues(t, 1, res.Page)
+}

@@ -1,2 +1,6 @@
 # go-external-api-consumption
 ## This is an example of how external APIs can be consumed using native HTTP clients in Golang.
+
+eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJlNDkxMzZhYzQ0NjZkNjNiMmQ5ZDc1Nzk1NzE3NzNkMSIsInN1YiI6IjVmZGFmNjNlOWY1MWFmMDAzZDU4ZDU5YiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.MBMZOHLNN1LmDOffgN27lw1absk_WFehXObd-3H2qus
+
+e49136ac4466d63b2d9d7579571773d1

@@ -6,7 +6,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
-	"log"
 	"net/http"
 )
 
@@ -24,12 +23,12 @@ func getAuthorizationHeader(accessToken string) string {
 func GetPopularMovies(accessToken string, request tmdb.PopularMovieRequest) (*tmdb.PopularMovieResponse, *tmdb.PopularMovieError) {
 
 	headers := http.Header{}
-	// headers.Set(headerAuthorization, getAuthorizationHeader(accessToken))
+	headers.Set(headerAuthorization, getAuthorizationHeader(accessToken))
 
 	response, err := rest_clients.Get(urlTmdbBase, request, headers)
 
 	if err != nil {
-		log.Println("Error while fetching movie data")
+		// log.Println("Error while fetching movie data")
 		return nil, &tmdb.PopularMovieError{
 			StatusCode:    http.StatusInternalServerError,
 			StatusMessage: err.Error(),
@@ -39,7 +38,7 @@ func GetPopularMovies(accessToken string, request tmdb.PopularMovieRequest) (*tm
 
 	bytes, err := ioutil.ReadAll(response.Body)
 	if err != nil {
-		log.Println("Invalid response body")
+		// log.Println("Invalid response body")
 		return nil, &tmdb.PopularMovieError{
 			StatusCode:    http.StatusInternalServerError,
 			StatusMessage: "Invalid response body",
@@ -63,7 +62,7 @@ func GetPopularMovies(accessToken string, request tmdb.PopularMovieRequest) (*tm
 	}
 
 	var result tmdb.PopularMovieResponse
-	if err := json.Unmarshal(bytes, &result); err != nil {
+	if err = json.Unmarshal(bytes, &result); err != nil {
 		return nil, &tmdb.PopularMovieError{
 			StatusCode:    http.StatusInternalServerError,
 			StatusMessage: "Error in unmarshal response body",

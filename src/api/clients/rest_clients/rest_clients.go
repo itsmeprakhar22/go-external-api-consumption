@@ -3,11 +3,51 @@ package rest_clients
 import (
 	"bytes"
 	"encoding/json"
+	"errors"
+	"fmt"
 	"net/http"
 )
 
-func Get(url string, body interface{}, headers http.Header) (*http.Response, error) {
+var (
+	enableMocks = false
+	mocks       = make(map[string]*Mock)
+)
 
+type Mock struct {
+	Url        string
+	HttpMethod string
+	Response   *http.Response
+	Error      error
+}
+
+func StartMockups() {
+	enableMocks = true
+}
+
+func StopMockups() {
+	enableMocks = false
+}
+
+func AddMockup(mock Mock) {
+	var mockId = GetMockupId(mock.HttpMethod, mock.Url)
+	mocks[mockId] = &mock
+}
+
+func GetMockupId(httpMethod string, url string) string {
+	return fmt.Sprintf("%s_%s", httpMethod, url)
+}
+
+func FlushMockups() {
+	mocks = make(map[string]*Mock)
+}
+func Get(url string, body interface{}, headers http.Header) (*http.Response, error) {
+	if enableMocks {
+		mock := mocks[GetMockupId(http.MethodGet, url)]
+		if mock == nil {
+			return nil, errors.New("No mockup for this URL")
+		}
+		return mock.Response, mock.Error
+	}
 	request, err := http.NewRequest(http.MethodGet, url, nil)
 	if err != nil {
 		return nil, err

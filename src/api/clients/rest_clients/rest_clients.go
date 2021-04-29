@@ -40,7 +40,7 @@ func GetMockupId(httpMethod string, url string) string {
 func FlushMockups() {
 	mocks = make(map[string]*Mock)
 }
-func Get(url string, body interface{}, headers http.Header) (*http.Response, error) {
+func Get(url string, params map[string]string, headers http.Header) (*http.Response, error) {
 	if enableMocks {
 		mock := mocks[GetMockupId(http.MethodGet, url)]
 		if mock == nil {
@@ -52,6 +52,12 @@ func Get(url string, body interface{}, headers http.Header) (*http.Response, err
 	if err != nil {
 		return nil, err
 	}
+	q := request.URL.Query()
+	for k, v := range params {
+		q.Add(k, v)
+	}
+	request.URL.RawQuery = q.Encode()
+
 	request.Header = headers
 	request.Header.Add("Content-Type", `application/json;charset=utf-8`)
 	client := http.DefaultClient

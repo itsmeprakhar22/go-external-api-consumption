@@ -13,7 +13,7 @@ const (
 	headerAuthorization       = "Authorization"
 	headerAuthorizationFormat = "Bearer %s"
 
-	urlTmdbBase = "http://api.themoviedb.org/3/movie/popular?api_key=YOUR_API_KEY"
+	urlTmdbBase string = "http://api.themoviedb.org/3/movie/popular"
 )
 
 func getAuthorizationHeader(accessToken string) string {
@@ -24,8 +24,12 @@ func GetPopularMovies(accessToken string, request tmdb.PopularMovieRequest) (*tm
 
 	headers := http.Header{}
 	headers.Set(headerAuthorization, getAuthorizationHeader(accessToken))
+	params := make(map[string]string)
+	params["api_key"] = accessToken
+	params["language"] = request.Language
+	params["page"] = fmt.Sprint(request.Page)
 
-	response, err := rest_clients.Get(urlTmdbBase, request, headers)
+	response, err := rest_clients.Get(urlTmdbBase, params, headers)
 
 	if err != nil {
 		// log.Println("Error while fetching movie data")

@@ -3,7 +3,7 @@ package repositories
 type GetPopularMoviesRequest struct {
 	ApiKey   string `json:"apiKey"`
 	Language string `json:"language"`
-	Page     int64  `json:"page"`
+	Page     int    `json:"page"`
 }
 
 type GetPopularMoviesResponse struct {

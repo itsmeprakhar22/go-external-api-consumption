@@ -6,6 +6,7 @@ import (
 	"GolangWorkspace/go-consuming-apis/src/api/domain/repositories"
 	"GolangWorkspace/go-consuming-apis/src/api/domain/tmdb"
 	"GolangWorkspace/go-consuming-apis/src/api/utils"
+	"log"
 	"strings"
 )
 
@@ -26,8 +27,13 @@ func init() {
 
 func (s *tmdbService) GetPopularMovies(input repositories.GetPopularMoviesRequest) (*repositories.GetPopularMoviesResponse, utils.ApiError) {
 	input.ApiKey = strings.TrimSpace(input.ApiKey)
-	if input.ApiKey == "" {
-		return nil, utils.NewBadRequest("Invalid api key")
+	// if input.ApiKey == "" {
+	// 	return nil, utils.NewBadRequest("Invalid api key")
+	// }
+
+	input.Language = strings.TrimSpace(input.Language)
+	if input.Language == "" {
+		input.Language = "en-US"
 	}
 
 	request := tmdb.PopularMovieRequest{
@@ -36,6 +42,7 @@ func (s *tmdbService) GetPopularMovies(input repositories.GetPopularMoviesReques
 		Page:     input.Page,
 	}
 
+	log.Println(config.GetTmdbAccessToken())
 	response, err := provider.GetPopularMovies(config.GetTmdbAccessToken(), request)
 	if err != nil {
 		return nil, utils.NewApiError(err.StatusCode, err.StatusMessage)

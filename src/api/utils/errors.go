@@ -46,3 +46,10 @@ func NewBadRequest(message string) ApiError {
 		status:  http.StatusBadRequest,
 	}
 }
+
+func NewApiError(status int, message string) ApiError {
+	return &apiError{
+		message: message,
+		status:  status,
+	}
+}

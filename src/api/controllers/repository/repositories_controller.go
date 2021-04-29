@@ -1,9 +1,9 @@
 package repository
 
 import (
+	"GolangWorkspace/go-consuming-apis/src/api/config"
 	"GolangWorkspace/go-consuming-apis/src/api/domain/repositories"
 	"GolangWorkspace/go-consuming-apis/src/api/services"
-	"log"
 	"net/http"
 	"strconv"
 
@@ -13,9 +13,9 @@ import (
 func GetPopularMovies(c *gin.Context) {
 	var request repositories.GetPopularMoviesRequest
 	var e error
-	log.Println(c.Request.URL.Query().Get("apiKey"))
+
 	request.Language = c.Request.URL.Query().Get("language")
-	request.ApiKey = c.Request.URL.Query().Get("apiKey")
+	request.ApiKey = config.GetTmdbAccessToken()
 	request.Page, e = strconv.Atoi(c.Request.URL.Query().Get("page"))
 	if e != nil {
 		request.Page = 1

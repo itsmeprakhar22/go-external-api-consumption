@@ -25,7 +25,7 @@ func GetPopularMovies(accessToken string, request tmdb.PopularMovieRequest) (*tm
 	headers := http.Header{}
 	headers.Set(headerAuthorization, getAuthorizationHeader(accessToken))
 	params := make(map[string]string)
-	params["api_key"] = accessToken
+	params["api_key"] = request.ApiKey
 	params["language"] = request.Language
 	params["page"] = fmt.Sprint(request.Page)
 

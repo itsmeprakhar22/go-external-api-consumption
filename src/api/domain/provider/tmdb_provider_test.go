@@ -26,7 +26,7 @@ func TestGetAuthorizationHeader(t *testing.T) {
 func TestGetPopularMovies(t *testing.T) {
 	rest_clients.FlushMockups()
 	rest_clients.AddMockup(rest_clients.Mock{
-		Url:        "http://api.themoviedb.org/3/movie/popular?api_key=YOUR_API_KEY",
+		Url:        "http://api.themoviedb.org/3/movie/popular",
 		HttpMethod: http.MethodGet,
 		Error:      errors.New("invalid json response"),
 	})
@@ -40,7 +40,7 @@ func TestGetPopularMoviesInvalidResponseBody(t *testing.T) {
 	rest_clients.FlushMockups()
 	invalidCloser, _ := os.Open("-asf3")
 	rest_clients.AddMockup(rest_clients.Mock{
-		Url:        "http://api.themoviedb.org/3/movie/popular?api_key=YOUR_API_KEY",
+		Url:        "http://api.themoviedb.org/3/movie/popular",
 		HttpMethod: http.MethodGet,
 		Response: &http.Response{
 			StatusCode: http.StatusCreated,
@@ -60,7 +60,7 @@ func TestGetPopularMoviesInvalidSuccessResponse(t *testing.T) {
 	rest_clients.FlushMockups()
 
 	rest_clients.AddMockup(rest_clients.Mock{
-		Url:        "http://api.themoviedb.org/3/movie/popular?api_key=YOUR_API_KEY",
+		Url:        "http://api.themoviedb.org/3/movie/popular",
 		HttpMethod: http.MethodGet,
 		Response: &http.Response{
 			StatusCode: http.StatusCreated,
@@ -80,7 +80,7 @@ func TestGetPopularMoviesRequiresAuthentication(t *testing.T) {
 	rest_clients.FlushMockups()
 
 	rest_clients.AddMockup(rest_clients.Mock{
-		Url:        "http://api.themoviedb.org/3/movie/popular?api_key=YOUR_API_KEY",
+		Url:        "http://api.themoviedb.org/3/movie/popular",
 		HttpMethod: http.MethodGet,
 		Response: &http.Response{
 			StatusCode: http.StatusUnauthorized,
@@ -100,7 +100,7 @@ func TestGetPopularMoviesInvalidErrorInterface(t *testing.T) {
 	rest_clients.FlushMockups()
 
 	rest_clients.AddMockup(rest_clients.Mock{
-		Url:        "http://api.themoviedb.org/3/movie/popular?api_key=YOUR_API_KEY",
+		Url:        "http://api.themoviedb.org/3/movie/popular",
 		HttpMethod: http.MethodGet,
 		Response: &http.Response{
 			StatusCode: http.StatusUnauthorized,
@@ -120,7 +120,7 @@ func TestGetPopularMoviesNoError(t *testing.T) {
 	rest_clients.FlushMockups()
 
 	rest_clients.AddMockup(rest_clients.Mock{
-		Url:        "http://api.themoviedb.org/3/movie/popular?api_key=YOUR_API_KEY",
+		Url:        "http://api.themoviedb.org/3/movie/popular",
 		HttpMethod: http.MethodGet,
 		Response: &http.Response{
 			StatusCode: http.StatusAccepted,
